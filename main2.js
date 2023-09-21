@@ -1,24 +1,19 @@
-// import gotScraping from "got-scraping";
-import * as cheerio from "cheerio";
+// main.js
+import { writeFileSync } from 'fs'; // <---- added a new import
 import { gotScraping } from 'got-scraping';
+import * as cheerio from 'cheerio';
 import { parse } from 'json2csv';
-import { writeFileSync } from 'fs';
-
 
 const storeUrl = 'https://warehouse-theme-metal.myshopify.com/collections/sales';
 
 const response = await gotScraping(storeUrl);
 const html = response.body;
 
-
 const $ = cheerio.load(html);
-
 
 const products = $('.product-item');
 
-
 const results = [];
-
 for (const product of products) {
     const titleElement = $(product).find('a.product-item__title');
     const title = titleElement.text().trim();
@@ -29,15 +24,5 @@ for (const product of products) {
     results.push({ title, price });
 }
 
-
-
 const csv = parse(results);
-
-
-writeFileSync('products.csv', csv);
-
-
-
-
-
-
+writeFileSync('products.csv', csv); // <---- added writing of CSV to file
