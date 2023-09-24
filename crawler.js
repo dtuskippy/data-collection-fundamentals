@@ -8,9 +8,12 @@ const response = await gotScraping(storeUrl);
 const html = response.body;
 
 const $ = cheerio.load(html);
+
 // the cheerio.load(html) is effectively document.querySelectorAll ...
-const links = $('a');
+// const links = $('a');
+const links = $('a.product-item__title');
 for (const link of links) {
   let url = $(link).attr('href');
   console.log(url);
+  
 }
